@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<odoo noupdate="1">
+    <!--Group for production user -->
+    <record id="group_production_manager_pos_user" model="res.groups">
+        <field name="name">Gestión Produccion / Usuario</field>
+        <field eval="[(4, ref('base.user_root'))]" name="implied_ids"/>
+    </record>
+    <!--Group for production manager -->
+    <record id="group_production_manager_pos" model="res.groups">
+        <field name="name">Gestión Produccion / Administrador</field>
+        <field eval="[(4, ref('production_manager.group_production_manager_pos_user'))]" name="implied_ids"/>
+        <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+    </record>
+
+    <record model="ir.rule" id="resumen_production_all_multi_company_rule">
+        <field name="name">Resumen Production All Multi compañia</field>
+        <field name="model_id" ref="model_resumen_production_all"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+</odoo>

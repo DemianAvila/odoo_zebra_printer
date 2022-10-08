@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_parameter_product_pos_user,parameter.product.pos.user,model_parameter_product_pos,group_production_manager_pos_user,1,1,0,0
+access_resumen_production_user,resumen.production.user,model_resumen_production,group_production_manager_pos_user,1,1,0,0
+access_production_order_user,production.order.user,model_production_order,group_production_manager_pos_user,1,1,0,0
+access_resumen_production_all_user,resumen.production.all.user,model_resumen_production_all,group_production_manager_pos_user,1,0,0,0
+access_parameter_product_pos_manager,parameter.product.pos.manager,model_parameter_product_pos,group_production_manager_pos,1,1,1,1
+access_resumen_production_manager,resumen.production.manager,model_resumen_production,group_production_manager_pos,1,1,1,1
+access_production_order_manager,production.order.manager,model_production_order,group_production_manager_pos,1,1,1,1
+

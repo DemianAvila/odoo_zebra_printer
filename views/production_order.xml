@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="view_production_order_form" model="ir.ui.view">
+		<field name="name">production.order.form</field>
+		<field name="model">production.order</field>
+		<field name="arch" type="xml">
+			<form string="Producir Reabastecimiento">
+				<header>
+					<button string="Crear Orden de Produccion" name="get_production_confirm" states="draft" type="object" class="oe_highlight"/>
+                    <button string="Finalizar" name="action_production_done" states="confirm" type="object" class="oe_highlight"/>
+                    <button string="Cambiar a Borrador" name="action_production_draft" states="cancel" type="object"/>
+                    <button string="Cancelar" name="action_production_cancel" states="confirm" type="object"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,done,confirm"/>
+				</header>
+				<sheet>
+					<div class="oe_button_box" name="button_box">
+						<button name="action_open_productions" class="oe_stat_button" icon="fa-book" type="object" help="Ordenes Produccion" attrs="{'invisible': [('production_count', '=', 0)]}">
+							<div class="o_field_widget o_stat_info">
+								<span class="o_stat_value"><field name="production_count"/></span>
+								<span class="o_stat_text">Fabricacion</span>
+							</div>
+						</button>
+					</div>
+					<div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1>
+                            <field name="name" class="oe_inline" required="1"/>
+                        </h1>
+                    </div>
+					<group>
+						<group>
+							<field name="date" required="1" attrs="{'readonly':[('state','=','done')]}"/>
+						</group>
+						<group>
+							<field name="company_id" options="{'no_create': True}" attrs="{'readonly':[('state','!=','draft')]}"/>
+						</group>
+					</group>
+					<notebook>
+                        <page string="Detalles">
+                            <field name="slip_ids" nolabel="1">
+                                <tree>
+<!--									editable="bottom"-->
+<!--									<control>-->
+<!--										<create name="add_line_control" string="Agregar registro"/>-->
+<!--										<create name="add_section_control" string="Agregar una sección" context="{'default_display_type': 'line_section'}"/>-->
+<!--										<create name="add_note_control" string="Agregar nota" context="{'default_display_type': 'line_note'}"/>-->
+<!--									</control>-->
+<!--									<field name="sequence" widget="handle"/>-->
+<!--									<field name="name" widget="section_and_note_text"/>-->
+<!--									<field name="display_type" force_save="1" invisible="1"/>-->
+									<field name="message_needaction" invisible="1"/>
+									<field name="name"/>
+									<field name="date_planned_start" readonly="1" optional="show" attrs="{'readonly': [('state', 'in', ['done', 'cancel'])]}"/>
+									<field name="product_id" readonly="1" optional="show"/>
+									<field name="product_uom_id" string="Unidad de Medida" options="{'no_open':True,'no_create':True}" groups="uom.group_uom" optional="show"/>
+									<field name="bom_id" readonly="1" optional="hide"/>
+									<field name="origin" optional="hide"/>
+									<field name="user_id" optional="hide"/>
+									<field name="routing_id" groups="mrp.group_mrp_routings" optional="show"/>
+									<field name="reservation_state" optional="hide"/>
+									<field name="qty_revast" sum="Total Qty Rev" optional="show" readonly="1"/>
+									<field name="product_qty" sum="Total Qty" string="Cantidad a Producir" optional="show"/>
+									<field name="state" optional="show"/>
+									<field name="company_id" readonly="1" groups="base.group_multi_company" optional="show"/>
+									<field name="activity_exception_decoration" widget="activity_exception"/>
+									<field name="move_check" widget="deprec_lines_toggler" optional="show"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+				</sheet>
+			</form>
+		</field>
+	</record>
+	<record id="view_production_order_list" model="ir.ui.view">
+		<field name="name">production.order.list</field>
+		<field name="model">production.order</field>
+		<field name="arch" type="xml">
+			<tree>
+				<field name="name" optional="show"/>
+				<field name="date" optional="show"/>
+				<field name="state" optional="show"/>
+			</tree>
+		</field>
+	</record>
+	<record id="action_production_order_form" model="ir.actions.act_window">
+		<field name="name">Producir Reabastecimiento</field>
+		<field name="res_model">production.order</field>
+		<field name="view_mode">tree,form</field>
+		<field name="view_id" ref="view_production_order_list"/>
+		<field name="help" type="html">
+		  <p class="o_view_nocontent_smiling_face">
+			Crea tu primer Registro de produccion de reabastecimeinto de productos aqui
+		  </p>
+		</field>
+	</record>
+
+	<menuitem
+            id="menu_production_order_manager"
+            name="Operaciones"
+            parent="production_manager_menu"
+            sequence="2"
+    />
+
+	<menuitem id="menu_production_order"
+			action="action_production_order_form"
+			parent="menu_production_order_manager"
+			sequence="3"/>
+
+	<menuitem id="menu_production_product"
+            name="Productos"
+            action="mrp.product_template_action"
+            parent="menu_production_order_manager"
+			sequence="4"/>
+
+	<menuitem id="menu_production_traceability"
+          name="Lotes/Números de serie"
+          action="stock.action_production_lot_form"
+          parent="menu_production_order_manager"
+          sequence="15"/>
+
+	<menuitem
+            id="menu_production_transferencia_manager"
+            name="Transferencia"
+            parent="production_manager_menu"
+            sequence="3"
+    />
+
+	<menuitem id="all_picking_her"
+			  name="Transferencias Internas"
+			  parent="menu_production_transferencia_manager"
+			  sequence="50"
+			  action="stock.action_picking_tree_all"
+			 />
+
+</odoo>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="assets_backend_" name="Resumen de Reservacion Rapida" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <link
+                rel="stylesheet"
+                href="/production_manager/static/src/css/room_summary.css"
+            />
+            <script
+                type="text/javascript"
+                src="/production_manager/static/src/js/hotel_room_summary.js"
+            />
+            <link rel="stylesheet" type="text/scss" href="/production_manager/static/src/scss/account_asset.scss"/>
+            <script type="text/javascript" src="/production_manager/static/src/js/account_asset.js"></script>
+        </xpath>
+    </template>
+</odoo>

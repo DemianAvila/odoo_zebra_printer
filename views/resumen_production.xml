@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <menuitem id="production_manager_menu" name="Gestion de Produccion" web_icon="production_manager,static/description/icon.png"
+            groups="production_manager.group_production_manager_pos_user"/>
+    <menuitem
+            id="menu_informes_production_manager"
+            name="Informes"
+            parent="production_manager_menu"
+            sequence="1"
+    />
+    <!-- Form view of room reservation summary -->
+    <record id="resumen_production_form_view" model="ir.ui.view">
+        <field name="name">resumen.production.form</field>
+        <field name="model">resumen.production</field>
+        <field name="arch" type="xml">
+            <form string="Resumen de reserva">
+                <header>
+                    <separator string="Resumen de la Produccion" colspan="4"/>
+                </header>
+                <sheet>
+                    <group colspan="4" col="4">
+                        <div>
+                            <label for="date_from" string="Rango de Fechas"/>
+                            <field name="date_from" class="oe_inline"/>
+                            Hasta
+                            <field name="date_to" class="oe_inline"/>
+                        </div>
+                        <div>
+                            <label for="config_id" string="Punto de Venta"/>
+                            <field name="config_id" class="oe_inline" options="{'no_create_edit': True}"/>
+                        </div>
+                    </group>
+                    <notebook>
+                        <page name="product_summary" string="Resumen">
+                            <field name="summary_header" colspan="4" invisible="1"/>
+                            <field name="product_summary" colspan="4" invisible="0" widget="Room_Reservation"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <!-- Form view of quick room reservation -->
+    <record id="quick_quick_resumen_production_form_view" model="ir.ui.view">
+        <field name="name">quick.resumen.production.form</field>
+        <field name="model">quick.resumen.production</field>
+        <field name="arch" type="xml">
+            <form string="Reserva rápida">
+                <header>
+                    <separator string="Reservacion rápida" colspan="4"/>
+                </header>
+                <sheet>
+                    <group colspan="4" col="4">
+                        <field name="product_id"/>
+                        <field name="maximo"/>
+                        <field name="minimo"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <group colspan="2" col="2">
+<!--                        <button string="Guardar" name="room_reserve" type="object" class="btn-primary"/>-->
+                        <button string="Cancelar" special="cancel" class="btn-primary"/>
+                    </group>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <!-- Action for Room Reservation Summary -->
+    <record id="action_resumen_production" model="ir.actions.act_window">
+        <field name="name">Resumen de Produccion</field>
+        <field name="res_model">resumen.production</field>
+        <field name="view_mode">form</field>
+    </record>
+    <menuitem
+            id="menu_resumen_production"
+            name="Resumen de Produccion por Local"
+            action="action_resumen_production"
+            parent="menu_informes_production_manager"
+            sequence="3"/>
+
+
+    <record id="view_resumen_production_all_pivot" model="ir.ui.view">
+        <field name="name">resumen.production.all.pivot</field>
+        <field name="model">resumen.production.all</field>
+        <field name="arch" type="xml">
+            <pivot string="Resumen de Produccion" disable_linking="true">
+                <field name="product_id" type="row" />
+                <field name="date_order" interval="day" type="col" />
+                <field name="config_id" type="col" />
+                <field name="qty_ven" type="measure" />
+            </pivot>
+        </field>
+    </record>
+
+    <record id="action_resumen_production_all" model="ir.actions.act_window">
+        <field name="name">Resumen de Produccion</field>
+        <field name="res_model">resumen.production.all</field>
+        <field name="view_mode">pivot</field>
+        <field name="view_id" ref="view_resumen_production_all_pivot"/>
+    </record>
+
+    <menuitem
+            id="menu_resumen_production_all"
+            name="Resumen de Produccion"
+            action="action_resumen_production_all"
+            parent="menu_informes_production_manager"
+            sequence="1"/>
+
+</odoo>
