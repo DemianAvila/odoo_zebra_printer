@@ -108,6 +108,7 @@
     					<field name="lot" />
 					</tree>
 				</field>
+				<button name="print_labels" string="Imprimir etiquetas" type="object"/>
 			</form>
 		</field>
 	</record>
@@ -119,20 +120,18 @@
 		<field name="view_id" ref="printer_wizard_menu"/>
 	</record>
 
+
+	<menuitem id="printing_action_menu"
+		action="printing_action"
+		sequence="20"
+		name="Imprimir producción"
+		parent="production_manager_menu"/>
+
 	<menuitem
             id="menu_production_order_manager"
             name="Operaciones"
             parent="production_manager_menu"
-            sequence="3"
-			action="printing_action"
-    />
-	
-	<menuitem
-            id="menu_production_printer_manager"
-            name="Imprimir producción"
-            parent="production_manager_menu"
-            sequence="3"
-    />
+            sequence="2" />
 
 	<menuitem id="menu_production_order"
 			action="action_production_order_form"
@@ -164,5 +163,8 @@
 			  sequence="50"
 			  action="stock.action_picking_tree_all"
 			 />
+
+
+	
 
 </odoo>
