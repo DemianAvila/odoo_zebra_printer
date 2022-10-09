@@ -6,4 +6,5 @@ access_resumen_production_all_user,resumen.production.all.user,model_resumen_pro
 access_parameter_product_pos_manager,parameter.product.pos.manager,model_parameter_product_pos,group_production_manager_pos,1,1,1,1
 access_resumen_production_manager,resumen.production.manager,model_resumen_production,group_production_manager_pos,1,1,1,1
 access_production_order_manager,production.order.manager,model_production_order,group_production_manager_pos,1,1,1,1
-
+access_printer_wizard,printer.wizard,model_printer_wizard,group_production_manager_pos,1,1,1,1
+access_product_printing,product.printing,model_product_printing,group_production_manager_pos,1,1,1,1

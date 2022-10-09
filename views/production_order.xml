@@ -95,11 +95,43 @@
 		</field>
 	</record>
 
+	<record id="printer_wizard_menu" model="ir.ui.view">
+		<field name="name">printer.wizard_menu</field>
+		<field name="model">printer.wizard</field>
+		<field name="arch" type="xml">
+			<form string="Imprimir etiquetas de producción">
+				<field  name="production_order"/>
+				<field name="products">
+					<tree editable="bottom">
+						<field name="product" />
+    					<field name="qty" /> 
+    					<field name="lot" />
+					</tree>
+				</field>
+			</form>
+		</field>
+	</record>
+
+	<record id="printing_action" model="ir.actions.act_window">
+		<field name="name">Printing action</field>
+		<field name="res_model">printer.wizard</field>
+		<field name="view_mode">form</field>
+		<field name="view_id" ref="printer_wizard_menu"/>
+	</record>
+
 	<menuitem
             id="menu_production_order_manager"
             name="Operaciones"
             parent="production_manager_menu"
-            sequence="2"
+            sequence="3"
+			action="printing_action"
+    />
+	
+	<menuitem
+            id="menu_production_printer_manager"
+            name="Imprimir producción"
+            parent="production_manager_menu"
+            sequence="3"
     />
 
 	<menuitem id="menu_production_order"
