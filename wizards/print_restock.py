@@ -1,4 +1,8 @@
 import logging
+import math
+import json
+import os
+import subprocess
 from odoo import fields, models, api
 
 def filter_lots_by_date(list_elem, prod):
@@ -48,6 +52,58 @@ class PrinterWizard(models.TransientModel):
                     "lot": lots[0].lot_name
                 })
     
+    def print_labels(self):
+        tickets = {}
+        #SET THE MEASURES OF THE PDF
+        #WIDTH
+        tickets["partial_width"] = 80
+        tickets["total_width"] = tickets["partial_width"]*2
+        #HEIGHT
+        tickets["partial_height"] = 12.7
+        tickets["tickets"] = []
+        counter = 0
+        #ITERATE ALL OVER THE LABELS
+        for index, product in enumerate(self.products):
+            for i in range(product.qty):
+                ticket = {}
+                #IF counter EVEN
+                if counter%2==0:
+                    #ORIGIN 0 IN WIDTH AND HEIGHT IN PARTIAL
+                    ticket["origin"] = [0,
+                        tickets["partial_height"]*(math.floor((counter)/2))]
+                else:
+                    #ORIGIN 80 IN WIDTH AND HEIGHT IN PARTIAL
+                    ticket["origin"] = [80, 
+                        tickets["partial_height"]*(math.floor((counter)/2))]
+
+                ticket["product"] = f"[{product.product.default_code}] {product.product.name}"
+                ticket["lot"] = product.lot
+                tickets["tickets"].append(ticket)
+                counter += 1
+
+        tickets["total_height"] = tickets["partial_height"]*(math.ceil(counter/2))
+
+        
+        #WRITE INFO IN JSON FILE
+        data = json.dumps(tickets)
+        file = open("/tmp/tickets.json", "w")
+        file.write(data)
+        file.close()
+
+        #EXCECUTE PYTHON SCRIPT FOR LABELS
+        path = os.path.dirname(os.path.abspath(__file__))
+        path = os.path.join(path, "label_api.py")
+
+        error = subprocess.run(["python3", path], capture_output = True)
+        file = open("/tmp/error.txt", "w")
+        file.write(str(f"{path} {error.stderr}"))
+        file.close()
+
+
+            
+            
+
+            
 
 class ProductPrinting(models.TransientModel):
     _name = "product.printing"
