@@ -3,6 +3,7 @@ import math
 import json
 import os
 import subprocess
+import base64
 from odoo import fields, models, api
 
 def filter_lots_by_date(list_elem, prod):
@@ -23,6 +24,15 @@ class PrinterWizard(models.TransientModel):
     
     production_order = fields.Many2one("production.order")
     products = fields.One2many("product.printing", "printing_id")
+
+    def get_labels(self):
+        file = open("/tmp/label.pdf", "rb")
+        data = file.read()
+        file.close()
+        return {
+            "file": base64.b64encode(data)
+        }
+        
 
     @api.onchange("production_order")
     def get_products(self):
@@ -98,6 +108,13 @@ class PrinterWizard(models.TransientModel):
         file = open("/tmp/error.txt", "w")
         file.write(str(f"{path} {error.stderr}"))
         file.close()
+
+        res = {
+            'type': 'ir.actions.client',
+            'name':'Print label',
+            'tag':'print_label',
+        }
+        return res
 
 
             

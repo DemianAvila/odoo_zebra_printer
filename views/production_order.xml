@@ -165,6 +165,14 @@
 			 />
 
 
+	<!--ACTION CLIENT-->
+	<record id="printing_label" model="ir.actions.client">
+       <field name="name">Print label</field>
+       <field name="tag">print_label</field>
+       <field name="target">new</field>
+	</record>
+   
+   
 	
 
 </odoo>

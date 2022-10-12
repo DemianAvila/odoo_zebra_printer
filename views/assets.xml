@@ -12,6 +12,8 @@
             />
             <link rel="stylesheet" type="text/scss" href="/production_manager/static/src/scss/account_asset.scss"/>
             <script type="text/javascript" src="/production_manager/static/src/js/account_asset.js"></script>
+            <script type="text/javascript" src="/production_manager/static/src/js/lib/printJS.js"></script>
+            <script type="text/javascript" src="/production_manager/static/src/js/printing_labels.js"></script>
         </xpath>
     </template>
 </odoo>
