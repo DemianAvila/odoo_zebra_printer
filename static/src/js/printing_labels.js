@@ -17,6 +17,11 @@ odoo.define('client_act.sale_cust', function (require) {
                 args: [{}]
             }).then(function(data){
                 printJS({printable: data.file, type: 'pdf', base64: true})
+                //REDIRECT WHEN PRINT
+                let full_url = window.location.href;
+                let home = full_url.slice(0, (full_url.indexOf("web")+3));
+                console.log(home);
+                window.location.replace(home);
             })
         },
     });
