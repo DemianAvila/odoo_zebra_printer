@@ -66,7 +66,7 @@ class PrinterWizard(models.TransientModel):
         tickets = {}
         #SET THE MEASURES OF THE PDF
         #WIDTH
-        tickets["partial_width"] = 80
+        tickets["partial_width"] = 40
         tickets["total_width"] = tickets["partial_width"]*2
         #HEIGHT
         tickets["partial_height"] = 12.7
